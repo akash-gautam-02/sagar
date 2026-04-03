@@ -57,7 +57,29 @@ const verifyPhoneOtp = async (phone, otp, sessionInfo) => {
   }
 };
 
+/**
+ * Verify ID Token from Frontend (Standard for Mobile/Frontend SDKs)
+ */
+const verifyFirebaseToken = async (idToken) => {
+  try {
+    const decodedToken = await admin.auth().verifyIdToken(idToken);
+    const { uid, phone_number, email } = decodedToken;
+    
+    return {
+      success: true,
+      user: {
+        id: uid,
+        phone: phone_number,
+        email: email
+      }
+    };
+  } catch (error) {
+    throw new Error(`Firebase Token verification failed: ${error.message}`);
+  }
+};
+
 module.exports = {
   sendPhoneOtp,
-  verifyPhoneOtp
+  verifyPhoneOtp,
+  verifyFirebaseToken
 };

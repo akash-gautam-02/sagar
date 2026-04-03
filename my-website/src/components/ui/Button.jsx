@@ -13,10 +13,10 @@ const Button = ({
   
   const variants = {
     primary: "bg-brand-accent text-white hover:bg-brand-accent-hover hover:scale-105 shadow-lg",
-    secondary: "border-2 border-brand-accent text-brand-accent hover:bg-brand-accent hover:text-white hover:scale-105",
-    ghost: "text-brand-accent hover:underline underline-offset-4 !px-0 !py-0 !w-auto", // Ghost variant remains inline
-    white: "bg-white text-brand-black hover:scale-105 shadow-lg",
-    outlineWhite: "border-2 border-white text-white hover:bg-white hover:text-brand-black"
+    secondary: "border-2 border-brand-accent text-brand-accent hover:bg-brand-accent hover:text-white dark:hover:text-white hover:scale-105",
+    ghost: "text-brand-accent hover:underline underline-offset-4 !px-0 !py-0 !w-auto", 
+    white: "bg-white dark:bg-brand-black text-brand-black dark:text-white hover:scale-105 shadow-lg",
+    outlineWhite: "border-2 border-white text-white hover:bg-white hover:text-brand-black dark:border-white/20 dark:hover:border-white"
   };
 
   return (

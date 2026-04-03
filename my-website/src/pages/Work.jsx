@@ -12,28 +12,28 @@ const Work = () => {
     {
       title: "Fintech Dashboard",
       category: "UI/UX Design",
-      image: "https://images.unsplash.com/photo-1551288049-bb848a55a110?w=1200&q=80&fit=crop",
+      image: "https://images.unsplash.com/photo-1551288049-bb848a55a110?w=800&q=80&fit=crop",
       desc: "A comprehensive financial dashboard that visualizes complex data with intuitive charts and real-time updates.",
       tech: ["React", "D3.js", "Tailwind CSS", "Figma"]
     },
     {
       title: "HealthConnect App",
       category: "Mobile Design",
-      image: "https://images.unsplash.com/photo-1576091160550-2173dba999ef?w=1200&q=80&fit=crop",
+      image: "https://images.unsplash.com/photo-1576091160550-2173dba999ef?w=800&q=80&fit=crop",
       desc: "Telemedicine platform connecting patients with specialized doctors via secure video calls and health tracking.",
       tech: ["React Native", "Firebase", "WebRTC", "UI Design"]
     },
     {
       title: "Luxury Commerce",
       category: "Web Development",
-      image: "https://images.unsplash.com/photo-1441986300917-64674bd600d8?w=1200&q=80&fit=crop",
+      image: "https://images.unsplash.com/photo-1441986300917-64674bd600d8?w=800&q=80&fit=crop",
       desc: "High-end e-commerce experience for a luxury watch brand, featuring an immersive virtual try-on.",
       tech: ["Next.js", "Three.js", "Stripe API", "Vercel"]
     },
     {
       title: "Estate Master",
       category: "SaaS Product",
-      image: "https://images.unsplash.com/photo-1560518883-ce09059eeffa?w=1200&q=80&fit=crop",
+      image: "https://images.unsplash.com/photo-1560518883-ce09059eeffa?w=800&q=80&fit=crop",
       desc: "Property management software designed for large-scale real estate firms to streamline operations.",
       tech: ["Node.js", "PostgreSQL", "React", "Docker"]
     }

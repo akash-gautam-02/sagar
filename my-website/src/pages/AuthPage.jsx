@@ -49,7 +49,8 @@ const AuthPage = () => {
   };
 
   return (
-    <div className="min-h-screen w-full flex bg-brand-white">
+    <div className="min-h-screen w-full flex bg-brand-white dark:bg-[#0F1115] transition-colors duration-500">
+      <div id="recaptcha-container"></div>
       {/* Left Side: Brand Visuals (Desktop only) */}
       <div className="hidden lg:flex w-1/2 bg-brand-black relative overflow-hidden">
         <img 
@@ -97,14 +98,14 @@ const AuthPage = () => {
       </div>
 
       {/* Right Side: Auth Form Container */}
-      <div className="w-full lg:w-1/2 flex flex-col justify-start lg:justify-center items-center px-6 sm:px-12 lg:px-24 py-8 lg:py-12 relative bg-white min-h-screen">
+      <div className="w-full lg:w-1/2 flex flex-col justify-start lg:justify-center items-center px-6 sm:px-12 lg:px-24 py-8 lg:py-12 relative bg-white dark:bg-[#0F1115] min-h-screen transition-colors duration-500">
         
         {/* Mobile Header - Now part of flow on mobile to prevent overlap */}
         <div className="lg:hidden w-full mb-12 flex justify-start items-center gap-2">
           <div className="w-8 h-8 bg-brand-accent rounded-lg flex items-center justify-center text-white">
             <Zap size={16} fill="currentColor" />
           </div>
-          <span className="font-syne font-bold text-xl text-brand-black">DIGITAL<span className="text-brand-accent">CORE</span></span>
+          <span className="font-syne font-bold text-xl text-brand-black dark:text-white">DIGITAL<span className="text-brand-accent">CORE</span></span>
         </div>
 
         <motion.div 
@@ -115,23 +116,23 @@ const AuthPage = () => {
           {authStep === 'login' ? (
             <div className="space-y-8">
               <div className="space-y-3">
-                <h2 className="text-3xl sm:text-4xl font-syne font-bold text-brand-black tracking-tight text-center sm:text-left">
+                <h2 className="text-3xl sm:text-4xl font-syne font-bold text-brand-black dark:text-white tracking-tight text-center sm:text-left">
                   {activeTab === 'login' ? 'Welcome back' : 'Start your journey'}
                 </h2>
-                <p className="text-gray-500 font-dm-sans text-base sm:text-lg text-center sm:text-left">
+                <p className="text-gray-500 dark:text-gray-400 font-dm-sans text-base sm:text-lg text-center sm:text-left">
                   {activeTab === 'login' ? 'Sign in to your premium dashboard.' : 'Join the elite 1% of digital pioneers.'}
                 </p>
               </div>
 
               {/* Tab Switcher */}
-              <div className="flex p-1.5 bg-gray-100 rounded-2xl">
+              <div className="flex p-1.5 bg-gray-100 dark:bg-white/5 rounded-2xl">
                 {['login', 'register'].map((tab) => (
                   <button 
                     key={tab}
                     onClick={() => setActiveTab(tab)}
                     className={clsx(
                       "flex-1 py-3 text-sm font-bold font-syne rounded-xl transition-all duration-300 uppercase tracking-wider",
-                      activeTab === tab ? "bg-white text-brand-black shadow-sm" : "text-gray-400 hover:text-gray-600"
+                      activeTab === tab ? "bg-white dark:bg-brand-accent text-brand-black dark:text-white shadow-sm" : "text-gray-400 dark:text-gray-500 hover:text-gray-600 dark:hover:text-gray-300"
                     )}
                   >
                     {tab}
@@ -140,12 +141,12 @@ const AuthPage = () => {
               </div>
 
               {/* Input Method Switcher */}
-              <div className="flex justify-center gap-4 text-sm font-dm-sans border-b border-gray-100 pb-2">
+              <div className="flex justify-center gap-4 text-sm font-dm-sans border-b border-gray-100 dark:border-white/5 pb-2">
                 <button 
                   onClick={() => setLoginMethod('phone')}
                   className={clsx(
                     "flex items-center gap-2 pb-2 px-4 transition-all border-b-2",
-                    loginMethod === 'phone' ? "border-brand-accent text-brand-black font-bold" : "border-transparent text-gray-400 hover:text-gray-600"
+                    loginMethod === 'phone' ? "border-brand-accent text-brand-black dark:text-white font-bold" : "border-transparent text-gray-400 hover:text-gray-600 dark:hover:text-gray-300"
                   )}
                 >
                   <Phone size={16} /> Phone
@@ -154,7 +155,7 @@ const AuthPage = () => {
                   onClick={() => setLoginMethod('email')}
                   className={clsx(
                     "flex items-center gap-2 pb-2 px-4 transition-all border-b-2",
-                    loginMethod === 'email' ? "border-brand-accent text-brand-black font-bold" : "border-transparent text-gray-400 hover:text-gray-600"
+                    loginMethod === 'email' ? "border-brand-accent text-brand-black dark:text-white font-bold" : "border-transparent text-gray-400 hover:text-gray-600 dark:hover:text-gray-300"
                   )}
                 >
                   <Mail size={16} /> Email
@@ -163,11 +164,11 @@ const AuthPage = () => {
 
               <form onSubmit={handleSendOTP} className="space-y-6">
                 <div className="space-y-2">
-                  <label className="text-xs font-bold text-gray-400 uppercase tracking-widest ml-1">
+                  <label className="text-xs font-bold text-gray-400 dark:text-gray-500 uppercase tracking-widest ml-1">
                     {loginMethod === 'phone' ? 'Phone Number' : 'Email Address'}
                   </label>
                   <div className="relative group">
-                    <div className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 transition-colors group-focus-within:text-brand-accent">
+                    <div className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 group-focus-within:text-brand-accent transition-colors">
                       {loginMethod === 'phone' ? <Phone size={20} /> : <Mail size={20} />}
                     </div>
                     <input 
@@ -175,7 +176,7 @@ const AuthPage = () => {
                       placeholder={loginMethod === 'phone' ? '+91 00000 00000' : 'john@digitalcore.agency'}
                       value={inputValue}
                       onChange={(e) => setInputValue(e.target.value)}
-                      className="w-full pl-12 pr-6 py-4 bg-gray-50 border-2 border-transparent focus:border-brand-accent focus:bg-white rounded-2xl outline-none transition-all font-dm-sans text-brand-black font-medium text-lg shadow-xs"
+                      className="w-full pl-12 pr-6 py-4 bg-gray-50 dark:bg-white/5 border-2 border-transparent focus:border-brand-accent focus:bg-white dark:focus:bg-brand-black rounded-2xl outline-none transition-all font-dm-sans text-brand-black dark:text-white font-medium text-lg shadow-xs"
                     />
                   </div>
                 </div>

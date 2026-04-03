@@ -24,10 +24,10 @@ const Home = () => {
               <Badge>🚀 Trusted by 500+ Companies</Badge>
             </div>
             {/* RESPONSIVE: Scaled heading sizes */}
-            <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-syne font-extrabold text-brand-black leading-[1.1] tracking-tight">
+            <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-syne font-extrabold text-brand-black dark:text-white leading-[1.2] md:leading-[1.1] tracking-tight transition-colors">
               We Build Digital <span className="text-brand-accent">Experiences</span> That Actually Work
             </h1>
-            <p className="text-lg md:text-xl text-gray-600 font-dm-sans leading-relaxed max-w-2xl mx-auto lg:mx-0">
+            <p className="text-lg md:text-xl text-gray-600 dark:text-gray-400 font-dm-sans leading-relaxed max-w-2xl mx-auto lg:mx-0">
               From stunning interfaces to seamless user flows — we turn complex ideas into elegant digital products. Our design-centric approach ensures your brand stands out.
             </p>
             {/* RESPONSIVE: Buttons full-width on mobile */}
@@ -97,8 +97,8 @@ const Home = () => {
       </section>
 
       {/* 🤝 Clients Strip */}
-      <div className="bg-gray-50 border-y border-gray-100 py-8 md:py-12 overflow-hidden">
-        <p className="text-center text-gray-400 text-[10px] sm:text-xs md:text-sm font-dm-sans uppercase tracking-[0.2em] mb-6 md:mb-8">Trusted by industry leaders</p>
+      <div className="bg-gray-50 dark:bg-[#1A1D23]/50 border-y border-gray-100 dark:border-white/5 py-8 md:py-12 overflow-hidden transition-colors">
+        <p className="text-center text-gray-400 dark:text-gray-500 text-[10px] sm:text-xs md:text-sm font-dm-sans uppercase tracking-[0.2em] mb-6 md:mb-8">Trusted by industry leaders</p>
         <div className="flex whitespace-nowrap animate-[marquee_25s_linear_infinite] px-6 gap-12 md:gap-24">
           <div className="flex items-center gap-12 md:gap-24 font-syne font-bold text-xl md:text-2xl text-gray-200 uppercase grayscale">
              <span>TechVibe</span> <span>FlowUI</span> <span>Stellar</span> <span>Nexus</span> <span>Prism</span> <span>Vertex</span> <span>Loom</span> <span>Pulse</span>
@@ -143,7 +143,7 @@ const Home = () => {
       </section>
 
       {/* 💬 Testimonials */}
-      <section className="py-20 md:py-32 px-6 sm:px-8 md:px-12 bg-gray-50 overflow-hidden text-center md:text-left">
+      <section className="py-20 md:py-32 px-6 sm:px-8 md:px-12 bg-gray-50 dark:bg-[#0F1115] overflow-hidden text-center md:text-left transition-colors">
         <div className="max-w-7xl mx-auto">
           <SectionTitle 
             subtitle="Testimonials" 
@@ -172,17 +172,17 @@ const Home = () => {
                 image: "https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?w=200&h=200&fit=crop"
               }
             ].map((testimonial, idx) => (
-              <Card key={idx} className="relative p-8! md:p-10! text-left">
+              <Card key={idx} className="relative p-8! md:p-10! text-left dark:bg-[#1A1D23] border border-gray-100 dark:border-white/5 shadow-xl">
                 <div className="text-brand-accent/5 absolute top-4 right-6 md:top-6 md:right-8">
                    <svg width="60" height="60" viewBox="0 0 24 24" fill="currentColor"><path d="M14.017 21L14.017 18C14.017 16.8954 14.9124 16 16.017 16H19.017C19.5693 16 20.017 15.5523 20.017 15V9C20.017 8.44772 19.5693 8 19.017 8H15.017C14.4647 8 14.017 8.44772 14.017 9V12C14.017 12.5523 13.5693 13 13.017 13H12.017V21H14.017ZM6.017 21L6.017 18C6.017 16.8954 6.91243 16 8.017 16H11.017C11.5693 16 12.017 15.5523 12.017 15V9C12.017 8.44772 11.5693 8 11.017 8H7.017C6.46472 8 6.017 8.44772 6.017 9V12C6.017 12.5523 5.56929 13 5.017 13H4.017V21H6.017Z"/></svg>
                 </div>
-                <p className="text-base md:text-lg text-gray-600 font-dm-sans italic mb-6 md:mb-8 relative z-10 leading-relaxed">
+                <p className="text-base md:text-lg text-gray-600 dark:text-gray-400 font-dm-sans italic mb-6 md:mb-8 relative z-10 leading-relaxed">
                   "{testimonial.text}"
                 </p>
                 <div className="flex items-center gap-4">
                   <img src={testimonial.image} className="w-12 h-12 md:w-14 md:h-14 rounded-full object-cover" alt={testimonial.author} />
                   <div>
-                    <h4 className="font-syne font-bold text-gray-900 text-sm md:text-base">{testimonial.author}</h4>
+                    <h4 className="font-syne font-bold text-gray-900 dark:text-white text-sm md:text-base">{testimonial.author}</h4>
                     <p className="text-xs md:text-sm text-gray-500">{testimonial.role}</p>
                   </div>
                 </div>

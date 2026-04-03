@@ -1,5 +1,5 @@
 const { sendEmailOtp, verifyEmailOtp } = require('../services/emailOtpService');
-const { sendPhoneOtp, verifyPhoneOtp } = require('../services/phoneOtpService');
+const { sendPhoneOtp, verifyPhoneOtp, verifyFirebaseToken } = require('../services/phoneOtpService');
 const { generateTokens } = require('../services/jwtService');
 const supabase = require('../config/supabase');
 
@@ -84,7 +84,16 @@ exports.verifyPhoneOtp = async (req, res) => {
   }
 
   try {
-    const { user } = await verifyPhoneOtp(phone, otp, sessionInfo);
+    let user;
+    if (req.body.firebaseToken) {
+      // 🔥 VERIFY TOKEN FROM FRONTEND SDK
+      const result = await verifyFirebaseToken(req.body.firebaseToken);
+      user = result.user;
+    } else {
+      // LEGACY SERVER-SIDE VERIFY
+      const result = await verifyPhoneOtp(phone, otp, sessionInfo);
+      user = result.user;
+    }
 
     // Sync with users table
     const { data: dbUser, error: dbError } = await supabase

@@ -15,7 +15,7 @@ const SectionTitle = ({ title, subtitle, centered = false, className }) => {
         </p>
       )}
       {/* RESPONSIVE: Scaling heading from mobile to desktop sizes */}
-      <h2 className="text-3xl sm:text-4xl md:text-5xl font-syne font-bold text-gray-900 leading-tight">
+      <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-5xl font-syne font-bold text-gray-900 dark:text-white leading-[1.2]">
         {title}
       </h2>
     </div>

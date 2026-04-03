@@ -16,7 +16,8 @@ const generateOtp = () => {
  */
 const sendEmailOtp = async (email) => {
   const otp = generateOtp();
-  const expiry = Date.now() + (process.env.OTP_EXPIRY_MINUTES || 10) * 60 * 1000;
+  const expiryMins = parseInt(process.env.OTP_EXPIRY_MINUTES) || 15;
+  const expiry = Date.now() + expiryMins * 60 * 1000;
 
   try {
     // 1. Store/Upsert OTP in Supabase table 'public.otps'
@@ -64,8 +65,8 @@ const verifyEmailOtp = async (email, otp) => {
     throw new Error('Invalid or expired OTP');
   }
 
-  if (Date.now() > record.expiry) {
-    throw new Error('OTP has expired');
+  if (Date.now() > Number(record.expiry)) {
+    throw new Error('OTP has expired. Please request a new one.');
   }
 
   // Cleanup OTP after verification

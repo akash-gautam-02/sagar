@@ -1,5 +1,10 @@
 import React, { createContext, useContext, useState, useEffect, useCallback, useRef } from 'react';
 import axios from 'axios';
+import { 
+  RecaptchaVerifier, 
+  signInWithPhoneNumber 
+} from "firebase/auth";
+import { auth } from '../config/firebase';
 
 const AuthContext = createContext();
 
@@ -13,7 +18,9 @@ export const AuthProvider = ({ children }) => {
   const [authStep, setAuthStep] = useState('login');
   const [identifier, setIdentifier] = useState('');
   const [authType, setAuthType] = useState('');
+  const [confirmationResult, setConfirmationResult] = useState(null);
   const inactivityTimer = useRef(null);
+  const recaptchaVerifierRef = useRef(null);
 
   // Auto logout function
   const logout = useCallback(async (logActivity = true) => {
@@ -97,26 +104,48 @@ export const AuthProvider = ({ children }) => {
   const [sessionInfo, setSessionInfo] = useState(null);
 
   /**
+   * Phone-Specific reCAPTCHA Setup
+   */
+  const setupRecaptcha = (containerId) => {
+    if (recaptchaVerifierRef.current) return;
+    try {
+      recaptchaVerifierRef.current = new RecaptchaVerifier(auth, containerId, {
+        size: 'invisible',
+        callback: (response) => {
+          console.log('reCAPTCHA verified');
+        }
+      });
+    } catch (err) {
+      console.error('reCAPTCHA Setup Error:', err);
+    }
+  };
+
+  /**
    * Send OTP to email or phone
    */
   const sendOTP = async (id) => {
     setLoading(true);
     try {
       const isEmail = id.includes('@');
-      const endpoint = isEmail ? '/auth/email/send-otp' : '/auth/phone/send-otp';
-      const payload = isEmail ? { email: id } : { phone: id };
       
-      const res = await axios.post(`${API_URL}${endpoint}`, payload);
+      if (!isEmail) {
+        // 🔥 FRONTEND FIREBASE PHONE AUTH
+        if (!recaptchaVerifierRef.current) setupRecaptcha('recaptcha-container');
+        const confirmation = await signInWithPhoneNumber(auth, id, recaptchaVerifierRef.current);
+        setConfirmationResult(confirmation);
+        setAuthType('phone');
+      } else {
+        // BACKEND EMAIL AUTH (via Resend)
+        const res = await axios.post(`${API_URL}/auth/email/send-otp`, { email: id });
+        setAuthType('email');
+      }
       
       setIdentifier(id);
-      setAuthType(isEmail ? 'email' : 'phone');
-      if (res.data.sessionInfo) {
-        setSessionInfo(res.data.sessionInfo);
-      }
       setAuthStep('otp');
       return { success: true };
     } catch (err) {
-      throw err.response?.data?.error || 'Failed to send OTP. Please try again.';
+      console.error('OTP Error:', err);
+      throw err.response?.data?.error || err.message || 'Failed to send OTP. Please try again.';
     } finally {
       setLoading(false);
     }
@@ -128,13 +157,25 @@ export const AuthProvider = ({ children }) => {
   const verifyOTP = async (otpCode) => {
     setLoading(true);
     try {
-      const isEmail = authType === 'email';
-      const endpoint = isEmail ? '/auth/email/verify-otp' : '/auth/phone/verify-otp';
-      const payload = isEmail 
-        ? { email: identifier, otp: otpCode } 
-        : { phone: identifier, otp: otpCode, sessionInfo };
-
-      const res = await axios.post(`${API_URL}${endpoint}`, payload);
+      let res;
+      if (authType === 'phone') {
+        // 🔥 FRONTEND FIREBASE PHONE VERIFY
+        const result = await confirmationResult.confirm(otpCode);
+        const idToken = await result.user.getIdToken();
+        
+        // Sync with our backend to get our JWT and create/update user
+        res = await axios.post(`${API_URL}/auth/phone/verify-otp`, { 
+          phone: identifier,
+          otp: otpCode, // Still sending for logging/consistency
+          firebaseToken: idToken 
+        });
+      } else {
+        // BACKEND EMAIL VERIFY
+        res = await axios.post(`${API_URL}/auth/email/verify-otp`, { 
+          email: identifier, 
+          otp: otpCode 
+        });
+      }
 
       if (res.data.success) {
         const { token: newToken, user: userData } = res.data;
@@ -142,11 +183,11 @@ export const AuthProvider = ({ children }) => {
         localStorage.setItem('auth_user', JSON.stringify(userData));
         setToken(newToken);
         setUser(userData);
-        setSessionInfo(null);
+        setConfirmationResult(null);
         return { success: true };
       }
     } catch (err) {
-      throw err.response?.data?.error || 'Verification failed. Please check your code.';
+      throw err.response?.data?.error || err.message || 'Verification failed. Please check your code.';
     } finally {
       setLoading(false);
     }
