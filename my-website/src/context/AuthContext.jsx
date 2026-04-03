@@ -94,15 +94,25 @@ export const AuthProvider = ({ children }) => {
     setLoading(false);
   }, []);
 
+  const [sessionInfo, setSessionInfo] = useState(null);
+
   /**
    * Send OTP to email or phone
    */
   const sendOTP = async (id) => {
     setLoading(true);
     try {
-      const res = await axios.post(`${API_URL}/auth/send-otp`, { identifier: id });
+      const isEmail = id.includes('@');
+      const endpoint = isEmail ? '/auth/email/send-otp' : '/auth/phone/send-otp';
+      const payload = isEmail ? { email: id } : { phone: id };
+      
+      const res = await axios.post(`${API_URL}${endpoint}`, payload);
+      
       setIdentifier(id);
-      setAuthType(res.data.type);
+      setAuthType(isEmail ? 'email' : 'phone');
+      if (res.data.sessionInfo) {
+        setSessionInfo(res.data.sessionInfo);
+      }
       setAuthStep('otp');
       return { success: true };
     } catch (err) {
@@ -118,10 +128,13 @@ export const AuthProvider = ({ children }) => {
   const verifyOTP = async (otpCode) => {
     setLoading(true);
     try {
-      const res = await axios.post(`${API_URL}/auth/verify-otp`, {
-        identifier,
-        otp: otpCode
-      });
+      const isEmail = authType === 'email';
+      const endpoint = isEmail ? '/auth/email/verify-otp' : '/auth/phone/verify-otp';
+      const payload = isEmail 
+        ? { email: identifier, otp: otpCode } 
+        : { phone: identifier, otp: otpCode, sessionInfo };
+
+      const res = await axios.post(`${API_URL}${endpoint}`, payload);
 
       if (res.data.success) {
         const { token: newToken, user: userData } = res.data;
@@ -129,6 +142,7 @@ export const AuthProvider = ({ children }) => {
         localStorage.setItem('auth_user', JSON.stringify(userData));
         setToken(newToken);
         setUser(userData);
+        setSessionInfo(null);
         return { success: true };
       }
     } catch (err) {
