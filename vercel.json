@@ -1,9 +1,9 @@
 {
-  "buildCommand": "npm run build",
-  "outputDirectory": "dist",
+  "buildCommand": "cd my-website && npm run build",
+  "outputDirectory": "my-website/dist",
   "framework": "vite",
   "rewrites": [
-    { "source": "/api/(.*)", "destination": "/api/app.js" },
-    { "source": "/(.*)", "destination": "/index.html" }
+    { "source": "/api/(.*)", "destination": "my-website/api/app.js" },
+    { "source": "/(.*)", "destination": "my-website/index.html" }
   ]
 }
