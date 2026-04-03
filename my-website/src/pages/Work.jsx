@@ -66,10 +66,10 @@ const Work = () => {
               <div className="flex justify-between items-start mb-4">
                  <div className="space-y-2">
                     <span className="text-brand-accent text-sm font-dm-sans font-bold uppercase tracking-widest">{project.category}</span>
-                    <h3 className="text-3xl font-syne font-extrabold text-brand-black">{project.title}</h3>
+                    <h3 className="text-3xl font-syne font-extrabold text-brand-black dark:text-white transition-colors">{project.title}</h3>
                  </div>
               </div>
-              <p className="text-gray-600 font-dm-sans mb-6 leading-relaxed max-w-xl">{project.desc}</p>
+              <p className="text-gray-600 dark:text-gray-400 font-dm-sans mb-6 leading-relaxed max-w-xl transition-colors">{project.desc}</p>
               <div className="flex flex-wrap gap-2 mb-8">
                  {project.tech.map((t, i) => (
                    <span key={i} className="px-3 py-1 bg-gray-100 rounded-full text-xs font-dm-sans font-medium text-gray-500">{t}</span>
@@ -82,34 +82,29 @@ const Work = () => {
       </section>
 
       {/* Stats Strip */}
-      <div className="bg-gray-50 border-y border-gray-100 py-16 mt-20">
+      <div className="bg-gray-50 dark:bg-[#1A1D23]/50 border-y border-gray-100 dark:border-white/5 py-16 mt-20 transition-colors">
          <div className="max-w-7xl mx-auto px-6 sm:px-8 md:px-12 grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
-            <div>
-               <p className="text-4xl font-syne font-bold text-brand-black">120+</p>
-               <p className="text-xs text-gray-500 font-dm-sans uppercase tracking-[0.2em] mt-1">Live Projects</p>
-            </div>
-            <div>
-               <p className="text-4xl font-syne font-bold text-brand-black">15+</p>
-               <p className="text-xs text-gray-500 font-dm-sans uppercase tracking-[0.2em] mt-1">Global Awards</p>
-            </div>
-            <div>
-               <p className="text-4xl font-syne font-bold text-brand-black">95%</p>
-               <p className="text-xs text-gray-500 font-dm-sans uppercase tracking-[0.2em] mt-1">Client Retention</p>
-            </div>
-            <div>
-               <p className="text-4xl font-syne font-bold text-brand-black">10M+</p>
-               <p className="text-xs text-gray-500 font-dm-sans uppercase tracking-[0.2em] mt-1">End-Users Impacted</p>
-            </div>
+            {[
+              { val: "120+", lab: "Live Projects" },
+              { val: "15+", lab: "Global Awards" },
+              { val: "95%", lab: "Client Retention" },
+              { val: "10M+", lab: "End-Users Impacted" }
+            ].map((stat, i) => (
+              <div key={i}>
+                 <p className="text-4xl font-syne font-bold text-brand-black dark:text-white">{stat.val}</p>
+                 <p className="text-xs text-gray-500 font-dm-sans uppercase tracking-[0.2em] mt-1">{stat.lab}</p>
+              </div>
+            ))}
          </div>
       </div>
 
       {/* Bottom CTA */}
       <section className="py-24 px-6 text-center space-y-8">
-         <h2 className="text-4xl font-syne font-bold text-brand-black">Seen Enough? Let's Start Yours.</h2>
+         <h2 className="text-4xl font-syne font-bold text-brand-black dark:text-white">Seen Enough? Let's Start Yours.</h2>
          <div className="flex justify-center pt-4">
             <Magnetic>
                <Link to="/contact">
-                  <Button variant="primary" className="px-12 py-5 text-lg">Work With Us</Button>
+                  <Button variant="primary" className="px-12 py-5 text-lg rounded-3xl!">Work With Us</Button>
                </Link>
             </Magnetic>
          </div>

@@ -14,3 +14,17 @@ pnpm-debug.log*
 .vscode/
 bin/
 obj/
+firebase-service-account.json
+server/firebase-service-account.json
+*.json
+!package.json
+!composer.json
+!tsconfig.json
+!jsconfig.json
+!deno.json
+!deno.jsonc
+!firebase.json
+!firestore.rules
+!storage.rules
+test_otp.js
+server/scripts/add_user.js

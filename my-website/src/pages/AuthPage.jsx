@@ -143,7 +143,7 @@ const AuthPage = () => {
               {/* Input Method Switcher */}
               <div className="flex justify-center gap-4 text-sm font-dm-sans border-b border-gray-100 dark:border-white/5 pb-2">
                 <button 
-                  onClick={() => setLoginMethod('phone')}
+                  onClick={() => { setLoginMethod('phone'); setInputValue('+91'); }}
                   className={clsx(
                     "flex items-center gap-2 pb-2 px-4 transition-all border-b-2",
                     loginMethod === 'phone' ? "border-brand-accent text-brand-black dark:text-white font-bold" : "border-transparent text-gray-400 hover:text-gray-600 dark:hover:text-gray-300"
@@ -152,7 +152,7 @@ const AuthPage = () => {
                   <Phone size={16} /> Phone
                 </button>
                 <button 
-                  onClick={() => setLoginMethod('email')}
+                  onClick={() => { setLoginMethod('email'); setInputValue(''); }}
                   className={clsx(
                     "flex items-center gap-2 pb-2 px-4 transition-all border-b-2",
                     loginMethod === 'email' ? "border-brand-accent text-brand-black dark:text-white font-bold" : "border-transparent text-gray-400 hover:text-gray-600 dark:hover:text-gray-300"
