@@ -8,6 +8,10 @@ import ScrollToTop from './components/utils/ScrollToTop'
 import { AuthProvider } from './context/AuthContext.jsx'
 import AuthPage from './pages/AuthPage.jsx'
 import Dashboard from './pages/Dashboard.jsx'
+import Services from './pages/Services.jsx'
+import Work from './pages/Work.jsx'
+import Pricing from './pages/Pricing.jsx'
+import Contact from './pages/Contact.jsx'
 import ProtectedRoute from './components/utils/ProtectedRoute.jsx'
 
 function App() {
@@ -19,6 +23,12 @@ function App() {
           <Routes>
             <Route path="/" element={<Layout />}>
               <Route index element={<Home />} />
+              
+              {/* Main Pages */}
+              <Route path="services" element={<Services />} />
+              <Route path="work" element={<Work />} />
+              <Route path="pricing" element={<Pricing />} />
+              <Route path="contact" element={<Contact />} />
               
               {/* Auth Routes */}
               <Route path="login" element={<AuthPage />} />
