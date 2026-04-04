@@ -209,4 +209,9 @@ If login/OTP fails:
 
 ## 🚀 Status: Production Ready
 
+---
+
+## 🐞 Bug Fix Note (Dashboard)
+White screen ka likely root cause production browser me Firebase Analytics initialization crash tha (kuch environments me `getAnalytics()` unsupported hone par app render se pehle toot jata hai), isliye ab analytics init ko safe support-check (`isSupported`) ke saath guard kiya gaya hai taaki unsupported case me app crash na kare; iske saath dashboard ka pehla `loadActivity` initialization issue bhi already fix hai, to deploy ke baad app normally load hona chahiye—agar phir bhi white screen aaye to sabse pehle browser console, Netlify deploy logs, aur env vars (`VITE_SUPABASE_URL`, `VITE_SUPABASE_ANON_KEY`) verify karein.
+
 Your full stack app is now ready for deployment and testing.

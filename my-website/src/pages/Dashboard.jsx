@@ -4,7 +4,7 @@ import { useAuth } from '../context/AuthContext';
 import { useNavigate } from 'react-router-dom';
 import {
   LayoutDashboard, User, Activity, Settings, LogOut,
-  Bell, ChevronRight, Zap, Clock, Shield, Smartphone,
+  Bell, Zap, Clock, Shield, Smartphone,
   Mail, Phone, Edit3, Save, X, CheckCircle2, AlertCircle,
   Monitor, Loader2
 } from 'lucide-react';
@@ -27,7 +27,6 @@ const StatCard = ({ title, value, icon: Icon, color, sub }) => (
 // ── Overview Tab ───────────────────────────────────────────
 const OverviewTab = ({ user, activityLogs }) => {
   const loginCount = activityLogs.filter(l => l.action === 'login').length;
-  const lastLogin = activityLogs.find(l => l.action === 'login');
 
   return (
     <div className="space-y-8 animate-fade-up">
@@ -281,17 +280,20 @@ const Dashboard = () => {
   ];
 
   useEffect(() => {
-    // Fetch profile + activity on mount
+    let isMounted = true;
     fetchProfile();
-    loadActivity();
-  }, []);
 
-  const loadActivity = async () => {
-    setLogsLoading(true);
-    const logs = await fetchActivity();
-    setActivityLogs(logs);
-    setLogsLoading(false);
-  };
+    const loadActivity = async () => {
+      setLogsLoading(true);
+      const logs = await fetchActivity();
+      if (!isMounted) return;
+      setActivityLogs(logs);
+      setLogsLoading(false);
+    };
+
+    loadActivity();
+    return () => { isMounted = false; };
+  }, [fetchProfile, fetchActivity]);
 
   const handleLogout = async () => {
     await logout(true);
