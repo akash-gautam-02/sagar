@@ -212,6 +212,6 @@ If login/OTP fails:
 ---
 
 ## 🐞 Bug Fix Note (Dashboard)
-Ab code-level bug fix ho chuka hai aur local production build successful aa rahi hai, isliye deploy karne par dashboard ka `loadActivity` initialization crash (`Cannot access 'loadActivity' before initialization`) nahi aana chahiye; pehle dikkat ye thi ki activity loader call function declaration se pehle ho rahi thi, jiski wajah se activity logs load fail ho jate the, aur ab isko `useEffect` ke safe async flow, proper dependencies (`fetchProfile`, `fetchActivity`) aur cleanup guard ke saath resolve kar diya gaya hai—final confirmation ke liye live deploy ke baad Overview/Activity tab aur browser console ko verify karna zaroori hai.
+White screen ka likely root cause production browser me Firebase Analytics initialization crash tha (kuch environments me `getAnalytics()` unsupported hone par app render se pehle toot jata hai), isliye ab analytics init ko safe support-check (`isSupported`) ke saath guard kiya gaya hai taaki unsupported case me app crash na kare; iske saath dashboard ka pehla `loadActivity` initialization issue bhi already fix hai, to deploy ke baad app normally load hona chahiye—agar phir bhi white screen aaye to sabse pehle browser console, Netlify deploy logs, aur env vars (`VITE_SUPABASE_URL`, `VITE_SUPABASE_ANON_KEY`) verify karein.
 
 Your full stack app is now ready for deployment and testing.
