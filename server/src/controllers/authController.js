@@ -78,9 +78,14 @@ exports.sendPhoneOtp = async (req, res) => {
  * Verify OTP via Phone
  */
 exports.verifyPhoneOtp = async (req, res) => {
-  const { phone, otp, sessionInfo } = req.body;
-  if (!phone || !otp || !sessionInfo) {
-    return res.status(400).json({ error: 'Phone, OTP, and sessionInfo are required', success: false });
+  const { phone, otp, sessionInfo, firebaseToken } = req.body;
+  
+  // Validation: Must have either firebaseToken OR (phone + otp + sessionInfo)
+  if (!firebaseToken && (!phone || !otp || !sessionInfo)) {
+    return res.status(400).json({ 
+      error: 'Either firebaseToken or (phone, otp, sessionInfo) is required', 
+      success: false 
+    });
   }
 
   try {
