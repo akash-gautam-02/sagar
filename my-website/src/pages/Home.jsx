@@ -17,7 +17,7 @@ const Home = () => {
     <div className="overflow-hidden">
       {/* 🚀 Hero Section */}
       {/* RESPONSIVE: Fluid padding and container max-width */}
-      <section ref={heroRef} className="pt-24 sm:pt-32 pb-20 md:pb-32 px-6 sm:px-8 md:px-12 max-w-7xl mx-auto opacity-0 translate-y-8 transition-all duration-700">
+      <section ref={heroRef} className="pt-24 sm:pt-32 pb-20 md:pb-32 px-6 sm:px-8 md:px-12 max-w-7xl mx-auto translate-y-8 transition-all duration-700">
         <div className="flex flex-col lg:flex-row items-center gap-12 lg:gap-16">
           <div className="w-full lg:w-3/5 space-y-6 md:space-y-8 text-center lg:text-left">
             <div className="flex justify-center lg:justify-start">
@@ -110,7 +110,7 @@ const Home = () => {
       </div>
 
       {/* ✨ Services Preview */}
-      <section ref={serviceRef} className="py-20 md:py-32 px-6 sm:px-8 md:px-12 max-w-7xl mx-auto opacity-0 translate-y-8 transition-all duration-700">
+      <section ref={serviceRef} className="py-20 md:py-32 px-6 sm:px-8 md:px-12 max-w-7xl mx-auto translate-y-8 transition-all duration-700">
         <SectionTitle 
           subtitle="What We Do" 
           title="Elevate Your Brand with Expert Solutions" 
@@ -193,7 +193,7 @@ const Home = () => {
       </section>
 
       {/* 📊 Numbers / Stats */}
-      <section ref={statsRef} className="bg-brand-black py-16 md:py-24 px-6 sm:px-8 md:px-12 opacity-0 translate-y-8 transition-all duration-700">
+      <section ref={statsRef} className="bg-brand-black py-16 md:py-24 px-6 sm:px-8 md:px-12 translate-y-8 transition-all duration-700">
         <div className="max-w-7xl mx-auto grid grid-cols-2 md:grid-cols-4 gap-8 md:gap-12 text-center">
            {[
              { label: "Projects", val: "250+" },
