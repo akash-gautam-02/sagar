@@ -83,17 +83,19 @@ export const AuthProvider = ({ children }) => {
 
     if (storedToken && storedUser) {
       try {
-        // Check if JWT is expired by decoding payload (no verify needed here)
-        const payload = JSON.parse(atob(storedToken.split('.')[1]));
-        if (payload.exp * 1000 < Date.now()) {
-          // Token expired — clear everything
-          localStorage.removeItem('auth_token');
-          localStorage.removeItem('auth_user');
-        } else {
-          setToken(storedToken);
-          setUser(JSON.parse(storedUser));
+        const parts = storedToken.split('.');
+        if (parts.length === 3) {
+          const payload = JSON.parse(atob(parts[1]));
+          if (payload.exp && payload.exp * 1000 < Date.now()) {
+            localStorage.removeItem('auth_token');
+            localStorage.removeItem('auth_user');
+          } else {
+            setToken(storedToken);
+            setUser(JSON.parse(storedUser));
+          }
         }
-      } catch {
+      } catch (err) {
+        console.error('Session restore error:', err);
         localStorage.removeItem('auth_token');
         localStorage.removeItem('auth_user');
       }
