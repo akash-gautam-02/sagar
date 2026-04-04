@@ -1,9 +1,25 @@
 {
-  "buildCommand": "cd my-website && npm run build",
-  "outputDirectory": "my-website/dist",
-  "framework": "vite",
-  "rewrites": [
-    { "source": "/api/(.*)", "destination": "my-website/api/app.js" },
-    { "source": "/(.*)", "destination": "my-website/index.html" }
+  "builds": [
+    {
+      "src": "my-website/package.json",
+      "use": "@vercel/static-build",
+      "config": {
+        "distDir": "dist"
+      }
+    },
+    {
+      "src": "api/index.js",
+      "use": "@vercel/node"
+    }
+  ],
+  "routes": [
+    {
+      "src": "/api/(.*)",
+      "dest": "api/index.js"
+    },
+    {
+      "src": "/(.*)",
+      "dest": "/my-website/dist/index.html"
+    }
   ]
 }

@@ -63,6 +63,18 @@ router.post('/send-otp', async (req, res) => {
 });
 
 /**
+ * Alias routes for frontend compatibility (AuthContext.jsx)
+ */
+router.post('/email/send-otp', (req, res, next) => {
+  req.body.identifier = req.body.email; // Map "email" to "identifier"
+  next();
+}, async (req, res) => {
+  // Transfer control to main send-otp handler
+  req.url = '/send-otp';
+  router.handle(req, res);
+});
+
+/**
  * POST /api/auth/verify-otp
  * Body: { identifier: string, otp: string }
  */
@@ -97,7 +109,7 @@ router.post('/verify-otp', async (req, res) => {
     if (listError) throw listError;
 
     const isEmail = validator.isEmail(identifier);
-    let user = users.find(u => isEmail ? u.email === identifier : u.phone === identifier);
+    let user = users.find(u => isEmail ? u.email === identifier : (u.phone === identifier || u.user_metadata?.phone === identifier));
 
     if (!user) {
       const userConfig = isEmail
@@ -149,4 +161,24 @@ router.post('/verify-otp', async (req, res) => {
   }
 });
 
+/**
+ * Alias verify routes for frontend compatibility
+ */
+router.post('/email/verify-otp', (req, res, next) => {
+  req.body.identifier = req.body.email;
+  next();
+}, async (req, res) => {
+  req.url = '/verify-otp';
+  router.handle(req, res);
+});
+
+router.post('/phone/verify-otp', (req, res, next) => {
+  req.body.identifier = req.body.phone;
+  next();
+}, async (req, res) => {
+  req.url = '/verify-otp';
+  router.handle(req, res);
+});
+
 module.exports = router;
+

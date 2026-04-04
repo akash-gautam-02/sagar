@@ -16,20 +16,18 @@ const Layout = () => {
   }, [pathname]);
 
   return (
-    <SmoothScroll>
-      <div className="flex flex-col min-h-screen font-dm-sans bg-brand-white text-brand-black selection:bg-brand-accent selection:text-white">
-        <CustomCursor />
-        {!hideLayout && <Navbar />}
-        <main className="grow overflow-hidden">
-          <AnimatePresence mode="wait">
-            <PageTransition key={pathname}>
-              <Outlet />
-            </PageTransition>
-          </AnimatePresence>
-        </main>
-        {!hideLayout && <Footer />}
-      </div>
-    </SmoothScroll>
+    <div className="flex flex-col min-h-screen font-dm-sans bg-brand-white text-brand-black selection:bg-brand-accent selection:text-white">
+      <CustomCursor />
+      {!hideLayout && <Navbar />}
+      <main className="grow overflow-hidden">
+        <AnimatePresence mode="wait">
+          <PageTransition key={pathname}>
+            <Outlet />
+          </PageTransition>
+        </AnimatePresence>
+      </main>
+      {!hideLayout && <Footer />}
+    </div>
   );
 };
 
